@@ -25,9 +25,11 @@ const timeout = function (s) {
 const apiKey = `07512e6f-4b93-4da4-91ea-d6ba1249dcab`;
 const showRecipe = async function () {
   try {
+    let id = window.location.hash.slice(1);
+    if(!id) return
     renderSpinal(recipeContainer);
     const response = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886?key=<insert your key>`
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}?key=<insert your key>`
     );
     const data = await response.json();
     // console.log(data);
@@ -58,14 +60,14 @@ const showRecipe = async function () {
       <svg class="recipe__info-icon">
         <use href="img/icons.svg#icon-clock"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--minutes">${recipe.servings}</span>
-      <span class="recipe__info-text">${recipe.cookingTime}</span>
+      <span class="recipe__info-data recipe__info-data--minutes">${recipe.cookingTime}</span>
+      <span class="recipe__info-text">minutes</span>
     </div>
     <div class="recipe__info">
       <svg class="recipe__info-icon">
         <use href="img/icons.svg#icon-users"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--people">4</span>
+      <span class="recipe__info-data recipe__info-data--people">${recipe.servings}</span>
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
@@ -138,4 +140,9 @@ const showRecipe = async function () {
     console.log(error);
   }
 };
-showRecipe()
+showRecipe();
+
+
+// ['hashchange','load'].forEach(ev=>window.addEventListener(ev,showRecipe))
+ window.addEventListener('hashchange',showRecipe);
+ window.addEventListener('load',showRecipe);
