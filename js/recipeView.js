@@ -1,7 +1,7 @@
-
 class RecipeView {
   #recipeContainer = document.querySelector(".recipe");
   #data;
+  #errorMessage = `recipe not found try another one!`;
   renderRecipe(data) {
     this.#data = data;
     const markup = this.#displayMarkup();
@@ -69,7 +69,8 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-        ${this.#data.ingredients.map((ing) => {
+        ${this.#data.ingredients
+          .map((ing) => {
             return `
           <li class="recipe__ingredient">
             <svg class="recipe__icon">
@@ -116,6 +117,25 @@ class RecipeView {
     </div>`;
     this.#clear();
     this.#recipeContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+  renderError(message = this.#errorMessage) {
+    const markup = `
+    <div class="error">
+    <div>
+      <svg>
+        <use href="img/icons.svg#icon-alert-triangle"></use>
+      </svg>
+    </div>
+    <p>${message}</p>
+  </div>   
+    `;
+    this.#clear();
+    this.#recipeContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+  addHandlerRender(handler) {
+    ["hashchange", "load"].forEach((ev) =>
+      window.addEventListener(ev, handler)
+    );
   }
 }
 
