@@ -1,23 +1,16 @@
-class RecipeView {
-  #recipeContainer = document.querySelector(".recipe");
-  #data;
-  #errorMessage = `recipe not found try another one!`;
-  renderRecipe(data) {
-    this.#data = data;
-    const markup = this.#displayMarkup();
-    this.#clear();
-    this.#recipeContainer.insertAdjacentHTML("afterbegin", markup);
-  }
-  #clear() {
-    this.#recipeContainer.innerHTML = "";
-  }
-  #displayMarkup() {
+import view from "./view.js";
+
+class RecipeView extends view {
+  _recipeContainer = document.querySelector(".recipe");
+  _errorMessage = `recipe not found try another one!`;
+
+  _displayMarkup() {
     return `<figure class="recipe__fig">
-        <img src="${this.#data.image}" alt="${
-      this.#data.tittle
+        <img src="${this._data.image}" alt="${
+      this._data.tittle
     }" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${this.#data.title}</span>
+          <span>${this._data.title}</span>
         </h1>
       </figure>
     
@@ -27,7 +20,7 @@ class RecipeView {
             <use href="img/icons.svg#icon-clock"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--minutes">${
-            this.#data.cookingTime
+            this._data.cookingTime
           }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
@@ -36,7 +29,7 @@ class RecipeView {
             <use href="img/icons.svg#icon-users"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--people">${
-            this.#data.servings
+            this._data.servings
           }</span>
           <span class="recipe__info-text">servings</span>
     
@@ -69,7 +62,7 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-        ${this.#data.ingredients
+        ${this._data.ingredients
           .map((ing) => {
             return `
           <li class="recipe__ingredient">
@@ -92,13 +85,13 @@ class RecipeView {
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
           <span class="recipe__publisher">${
-            this.#data.publisher
+            this._data.publisher
           }</span>. Please check out
           directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"
-          href="${this.#data.sourceUrl}"
+          href="${this._data.sourceUrl}"
           target="_blank"
         >
           <span>Directions</span>
@@ -109,29 +102,7 @@ class RecipeView {
       </div>
       `;
   }
-  showLoader() {
-    const markup = `<div class="spinner">
-     <svg>
-         <use href="img/icons.svg#icon-loader"></use>
-       </svg>
-    </div>`;
-    this.#clear();
-    this.#recipeContainer.insertAdjacentHTML("afterbegin", markup);
-  }
-  renderError(message = this.#errorMessage) {
-    const markup = `
-    <div class="error">
-    <div>
-      <svg>
-        <use href="img/icons.svg#icon-alert-triangle"></use>
-      </svg>
-    </div>
-    <p>${message}</p>
-  </div>   
-    `;
-    this.#clear();
-    this.#recipeContainer.insertAdjacentHTML("afterbegin", markup);
-  }
+
   addHandlerRender(handler) {
     ["hashchange", "load"].forEach((ev) =>
       window.addEventListener(ev, handler)

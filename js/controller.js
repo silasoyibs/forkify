@@ -1,6 +1,10 @@
 import * as model from "./model.js";
 import recipeView from "./recipeView.js";
 import RecipeView from "./recipeView.js";
+import searchView from "./searchView.js";
+import ResultView from "./resultView.js";
+import resultView from "./resultView.js";
+
 const recipeContainer = document.querySelector(".recipe");
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -33,16 +37,20 @@ showRecipe();
 
 const controlRecipeSearch = async function () {
   try {
-    model.loadSearchResult("pizza");
+    resultView.showLoader();
+    const query = searchView.getQuery();
+    if (!query) return;
+    await model.loadSearchResult(query);
+    ResultView.renderRecipe(model.state.search.results);
     console.log(model.state.search.results);
   } catch (err) {
     console.log(err);
   }
 };
-controlRecipeSearch();
 
 const init = function () {
   recipeView.addHandlerRender(showRecipe);
+  searchView.addHandlerSearch(controlRecipeSearch);
 };
 init();
 //  window.addEventListener('hashchange',showRecipe);
