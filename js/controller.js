@@ -4,6 +4,7 @@ import RecipeView from "./recipeView.js";
 import searchView from "./searchView.js";
 import ResultView from "./resultView.js";
 import resultView from "./resultView.js";
+import paginationView from "./paginationView.js";
 
 const recipeContainer = document.querySelector(".recipe");
 const timeout = function (s) {
@@ -41,16 +42,21 @@ const controlRecipeSearch = async function () {
     const query = searchView.getQuery();
     if (!query) return;
     await model.loadSearchResult(query);
-    ResultView.renderRecipe(model.state.search.results);
-    console.log(model.state.search.results);
+    ResultView.renderRecipe(model.paginationPage());
+    paginationView.renderRecipe(model.state.search);
   } catch (err) {
     console.log(err);
   }
 };
 
+const controlpagination = function (gotoPage) {
+  ResultView.renderRecipe(model.paginationPage(gotoPage));
+  paginationView.renderRecipe(model.state.search);
+};
 const init = function () {
   recipeView.addHandlerRender(showRecipe);
   searchView.addHandlerSearch(controlRecipeSearch);
+  paginationView.addHandlerClick(controlpagination);
 };
 init();
 //  window.addEventListener('hashchange',showRecipe);

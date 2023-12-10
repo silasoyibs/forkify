@@ -1,6 +1,6 @@
 import view from "./view.js";
 class ResultView extends view {
-  _recipeContainer = document.querySelector(".results");
+  _parentElement = document.querySelector(".results");
   _displayMarkup() {
     return this._data.map(this._displayMarkupPreview).join(" ");
   }

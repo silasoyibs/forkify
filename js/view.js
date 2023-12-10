@@ -1,15 +1,15 @@
 export default class View {
   _data;
+
   renderRecipe(data) {
     this._data = data;
     const markup = this._displayMarkup();
     this._clear();
-    this._recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
   _clear() {
-    this._recipeContainer.innerHTML = "";
+    this._parentElement.innerHTML = "";
   }
-
   showLoader() {
     const markup = `<div class="spinner">
      <svg>
@@ -17,7 +17,7 @@ export default class View {
        </svg>
     </div>`;
     this._clear();
-    this._recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
   renderError(message = this._errorMessage) {
     const markup = `
@@ -31,6 +31,6 @@ export default class View {
   </div>   
     `;
     this._clear();
-    this._recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 }

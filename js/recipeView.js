@@ -1,7 +1,7 @@
 import view from "./view.js";
 
 class RecipeView extends view {
-  _recipeContainer = document.querySelector(".recipe");
+  _parentElement = document.querySelector(".recipe");
   _errorMessage = `recipe not found try another one!`;
 
   _displayMarkup() {
