@@ -60,3 +60,11 @@ export const paginationPage = function (page = state.search.page) {
   const endIndex = startIndex + state.search.itemsPerPage;
   return state.search.results.slice(startIndex, endIndex);
 };
+
+export const updateServing = function (newServing) {
+  state.recipe.ingredients.forEach((ing) => {
+    ing.quantity = (ing.quantity * newServing) / state.recipe.servings;
+  });
+
+  state.recipe.servings = newServing;
+};
